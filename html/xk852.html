@@ -10,7 +10,7 @@
   <!link rel="stylesheet" href="css/style.css">
 </head>
 
-<body>
+<body style="background-color:blueviolet">
   
 <div class="container">
 <H1> XK852 Rig Control <H2>
@@ -26,6 +26,7 @@
 <div class="cmd" name = "FREQUENCY" op = 'F'>
   Frequency
 </div>
+<input type="number" onchange="setFrequency" ><br>
 <div class="cmd" name = "LINE" op = 'G'>
   Line
   <br>
@@ -81,9 +82,9 @@
 <div class="cmd" name = "SELFTEST" op = 'T'>
   Selftest
   <br>
-  <input type="radio" class="clickCmd" id="SELFTEST" name="SELFTEST" value="Tu"> <label for="SELFTEST_START">Start selftest</label><br>
-  <input type="radio" class="clickCmd" id="SELFTEST_QUERY_CM" name="SELFTEST" value="Tu5"> <label for="SELFTEST_QUERY_CM">Query selftest result CM</label><br>
-  <input type="radio" id="class="clickCmd" SELFTEST_QUERY_BITE" name="SELFTEST" value="T28"> <label for="SELFTEST_QUERY_BITE">Query selftest result BITE</label><br>  
+  <button class="clickCmd" id="SELFTEST" value="Tu">Start Selftest</button><br>
+   <button class="clickCmd" id="SELFTEST_QUERY_CM" value="Tu5"> Query Selftest Result</button><br>
+  <button class="clickCmd" SELFTEST_QUERY_BITE"  value="T28">Query Selftest result BITE</button><br>
 </div>
 <div class="cmd" name = "VOICE" op = 'V'>
   Voice Control
@@ -95,9 +96,9 @@
 <div class="cmd" name = "PTT" op = 'X'>
   PTT
   <br>
-  <input type="radio" class="clickCmd" id="PTT_OFF" name="PTT" value="X2"> <label for="PTT_OFF">PTT: TX OFF</label><br>
-  <input type="radio" class="clickCmd" id="PTT_ON" name="PTT" value="X1"> <label for="PTT_ON">PTT: TX ON</label><br>
-  <input type="radio" class="clickCmd" id="PTT_DISPLAY_OFF" name="PTT" value="X0"> <label for="PTT_DISPLAY_OFF">PTT: DISPLAY OFF</label><br>      
+  <button onClick="setTxOff()" class="clickCmd" id="PTT_OFF" value="X2">TX OFF</button><br>
+  <button onClick="setTxOn()" class="clickCmd" id="PTT_ON" value="X1">TX ON</button><br>
+  <button class="clickCmd" id="PTT_DISPLAY_OFF" value="X0">PTT DISPLAY OFF</button><br>
 </div>
 <div class="cmd" name = "TUNE" op = 'Y'>
   Tune
@@ -134,6 +135,12 @@
     elem.addEventListener('click', sendMsg)
   }
 
+function setTxOff (event) {
+  document.body.style.background = "rgb(36, 234, 29)";
+}
+function setTxOn (event) {
+  document.body.style.background = "rgb(14, 6, 237)";
+}
 </script>
 
 </body>
