@@ -1,0 +1,94 @@
+esphome:
+  name: xk852_cat_server
+#  platformio_options:
+#    upload_speed: 57600
+
+esp8266:
+  board: esp12e
+
+api:
+  password: !secret api
+  reboot_timeout: 0s
+
+ota:
+  password: !secret ota
+
+wifi:
+  ssid: "UnPr"
+  password: !secret UnPr
+  fast_connect: on
+  manual_ip:
+    static_ip: 192.168.10.9
+    gateway: 192.168.10.1
+    subnet: 255.255.255.0  
+  ap:
+    ssid: "XK852CatServer"
+    password: !secret accesspoint
+
+captive_portal:
+
+web_server:
+  port: 80
+
+sensor:
+  - platform: uptime
+    name: Uptime Sensor
+    id: uptimeID
+  - platform: wifi_signal
+    name: "XK852CatServer"
+    update_interval: 60s
+
+text_sensor:
+  - platform: template
+    name: "XK852return"
+    lambda: |-
+      return {"Hello World"};
+    update_interval: 60s
+
+button:
+- platform: template
+  id: button_query_status
+  name: "Send query status O1"
+  on_press:
+    then:
+      - uart.write: "\n*O1\r"
+
+- platform: template
+  id: button_tx_on
+  name: "Send TX OFF"
+  on_press:
+    then:
+      - uart.write: "\n*X2\r"
+
+- platform: template
+  id: button_tx_off
+  name: "Send TX ON"
+  on_press:
+    then:
+      - uart.write: "\n*X1\r"
+
+logger:
+  hardware_uart: uart1
+  #  baud_rate: 0 #disable logger on serial port
+  level: DEBUG
+
+uart:
+  id: "xk852serial"
+  baud_rate: 9600
+  data_bits: 7
+  parity: EVEN
+  stop_bits: 1
+  tx_pin:
+    number: GPIO1
+    inverted: true
+  rx_pin:
+    number: GPIO3    
+    inverted: true
+  debug:
+    direction: BOTH
+    dummy_receiver: true # needed for debugging received data
+    after:
+      delimiter: "\r"
+    sequence:
+      - lambda: UARTDebug::log_string(direction, bytes);
+      - lambda: UARTDebug::log_hex(direction, bytes, ':'); 
